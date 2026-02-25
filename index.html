@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Dice App</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .app-container {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:nth-of-type(1) { background: #4CAF50; color: white; }
+        button:nth-of-type(2) { background: #2196F3; color: white; }
+        button:nth-of-type(3) { background: #FF9800; color: white; }
+
+        #result {
+            margin-top: 25px;
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            min-height: 40px;
+            color: #333;
+        }
+
+        .side-item {
+            background: #f7f7f7;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+
+<h1>🎲 Custom Dice 🎲</h1>
+
+<input type="text" id="diceName" placeholder="Dice name (e.g. Workout Dice)">
+<br>
+
+<input type="text" id="sideInput" placeholder="Add a side (e.g. Pushups)">
+<br>
+
+<button onclick="addSide()">Add Side</button>
+
+<div id="sidesList"></div>
+
+<button onclick="saveDice()">Save Dice</button>
+<button onclick="rollDice()">Roll 🎲</button>
+<button onclick="clearSides()">Clear Current Dice</button>
+
+<div id="result"></div>
+
+<hr>
+
+<h2>Saved Dice</h2>
+<div id="savedDice"></div>
+
+<script>
+let sides = [];
+let editingIndex = null;
+let diceCollection = JSON.parse(localStorage.getItem("diceCollection")) || [];
+
+function addSide() {
+    const input = document.getElementById("sideInput");
+    if (input.value.trim() === "") return;
+
+    sides.push(input.value);
+    input.value = "";
+    renderSides();
+}
+
+function renderSides() {
+    const list = document.getElementById("sidesList");
+    list.innerHTML = "";
+
+    sides.forEach((side, index) => {
+        const div = document.createElement("div");
+        div.className = "side-item";
+
+        const span = document.createElement("span");
+        span.textContent = side;
+
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+        editBtn.style.marginLeft = "10px";
+        editBtn.style.background = "#28a745";
+
+        editBtn.onclick = () => {
+            editSide(index);
+        };
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.style.marginLeft = "5px";
+        deleteBtn.style.background = "#dc3545";
+
+        deleteBtn.onclick = () => {
+        sides.splice(index, 1);
+        renderSides();
+};
+
+        div.appendChild(span);
+        div.appendChild(editBtn);
+        div.appendChild(deleteBtn);
+        list.appendChild(div);
+    });
+}
+
+function saveDice() {
+    const name = document.getElementById("diceName").value;
+    if (!name || sides.length === 0) {
+        alert("Please add a name and at least one side.");
+        return;
+    }
+
+    if (editingIndex !== null) {
+        // Update existing dice
+        diceCollection[editingIndex] = { name: name, sides: [...sides] };
+    } else {
+        // Create new dice
+        diceCollection.push({ name: name, sides: [...sides] });
+    }
+
+    localStorage.setItem("diceCollection", JSON.stringify(diceCollection));
+
+    sides = [];
+    editingIndex = null;
+    document.getElementById("diceName").value = "";
+    renderSides();
+    renderSavedDice();
+}
+
+function renderSavedDice() {
+    const container = document.getElementById("savedDice");
+    container.innerHTML = "";
+
+    diceCollection.forEach((dice, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = dice.name;
+
+        btn.onclick = () => {
+            sides = [...dice.sides];
+            document.getElementById("diceName").value = dice.name;
+            editingIndex = index;
+            renderSides();
+        };
+
+        container.appendChild(btn);
+    });
+}
+
+function rollDice() {
+    if (sides.length === 0) {
+        alert("No sides to roll!");
+        return;
+    }
+
+    let count = 0;
+    const resultDiv = document.getElementById("result");
+
+    const interval = setInterval(() => {
+        const randomIndex = Math.floor(Math.random() * sides.length);
+        resultDiv.textContent = sides[randomIndex];
+        count++;
+
+        if (count > 20) {
+            clearInterval(interval);
+        }
+    }, 100);
+}
+
+function clearSides() {
+    sides = [];
+    renderSides();
+    document.getElementById("result").textContent = "";
+}
+
+function editSide(index) {
+    const newValue = prompt("Edit this side:", sides[index]);
+
+    if (newValue !== null && newValue.trim() !== "") {
+        sides[index] = newValue;
+        renderSides();
+    }
+}
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js');
+}
+
+</script>
+
+</div>
+
+</body>
+</html>
