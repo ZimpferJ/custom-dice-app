@@ -48,6 +48,15 @@
             line-height: 1.5;
         }
 
+        #version-label {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 12px;
+            opacity: 0.6;
+            font-weight: 500;
+        }
+
         .hidden {
             display: none;
         }
@@ -114,12 +123,13 @@
 <body>
 
     <div id="splash-screen" class="splash">
-        <h1>🎲 Welcome to Custom Dice</h1>
+        <h1>🎲 Welcome to Custom Dice 🎲</h1>
         <p>
-            Create personalized dice for workouts, meals, study sessions, 
+            Create personalized dice for workouts, meal planning, study sessions, 
             or anything you want to randomize.
         </p>
         <button onclick="startApp()">Get Started</button>
+        <div id="version-label"></div> <!-- Version will appear here -->
     </div>
 
     <div id="main-app" class="hidden">
