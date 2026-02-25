@@ -114,12 +114,12 @@
 <body>
 
     <div id="splash-screen" class="splash">
-    <h1>🎲 Welcome to Custom Dice</h1>
-    <p>
-        Create personalized dice for workouts, meals, study sessions, 
-        or anything you want to randomize.
-    </p>
-    <button onclick="startApp()">Get Started</button>
+        <h1>🎲 Welcome to Custom Dice</h1>
+        <p>
+            Create personalized dice for workouts, meals, study sessions, 
+            or anything you want to randomize.
+        </p>
+        <button onclick="startApp()">Get Started</button>
     </div>
 
     <div id="main-app" class="hidden">
@@ -285,9 +285,8 @@
                 }
 
                 function startApp() {
-                    document.getElementById("splash-screen").classList.add("hidden");
-                    document.getElementById("main-app").classList.remove("hidden");
                     localStorage.setItem("hasOpenedApp", "true");
+                    closeAbout();
                 }
 
                 window.addEventListener("load", () => {
