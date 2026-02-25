@@ -1,0 +1,125 @@
+        * {
+            box-sizing: border-box;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover; /* make it cover the whole viewport */
+            display: flex;
+            justify-content: center;
+            padding: 0px;
+        }
+
+        .app-container {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .splash {
+            position: relative;
+            inset: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .splash h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .splash p {
+            max-width: 300px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        #version-label {
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+            font-size: 12px;
+            opacity: 0.6;
+            font-weight: 500;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        h1 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:nth-of-type(1) { background: #4CAF50; color: white; }
+        button:nth-of-type(2) { background: #2196F3; color: white; }
+        button:nth-of-type(3) { background: #FF9800; color: white; }
+
+        #result {
+            margin-top: 25px;
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            min-height: 40px;
+            color: #333;
+        }
+
+        .side-item {
+            background: #f7f7f7;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
