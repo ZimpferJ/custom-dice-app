@@ -6,10 +6,20 @@
     <meta name="theme-color" content="#667eea">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
+        html, body {
             margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        body {
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #667eea, #764ba2);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover; /* make it cover the whole viewport */
             display: flex;
             justify-content: center;
             padding: 20px;
@@ -25,7 +35,7 @@
         }
 
         .splash {
-            position: fixed;
+            position: relative;
             inset: 0;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
@@ -330,19 +340,19 @@
                     document.getElementById("main-app").classList.remove("hidden");
                 }
 
+                const APP_VERSION = "2.1"; // match this to your service-worker version if you want
+
                 document.addEventListener("DOMContentLoaded", () => {
+                    // Splash screen
                     const versionLabel = document.getElementById("version-label");
+                    if (versionLabel) {
+                        versionLabel.textContent = "Version " + APP_VERSION;
+                    }
 
-                    if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
-                        // Send a message to the active service worker
-                        navigator.serviceWorker.controller.postMessage({ type: "GET_VERSION" });
-
-                        // Listen for response
-                        navigator.serviceWorker.addEventListener("message", event => {
-                            if (event.data.type === "VERSION") {
-                                versionLabel.textContent = "Version " + event.data.version;
-                            }
-                        });
+                    // About modal
+                    const aboutVersion = document.getElementById("about-version");
+                    if (aboutVersion) {
+                        aboutVersion.textContent = "Version " + APP_VERSION;
                     }
                 });
 

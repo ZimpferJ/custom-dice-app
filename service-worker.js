@@ -35,9 +35,3 @@ self.addEventListener('fetch', event => {
         })
     );
 });
-
-self.addEventListener("message", event => {
-    if (event.data && event.data.type === "GET_VERSION") {
-        event.source.postMessage({ type: "VERSION", version: APP_VERSION });
-    }
-});
