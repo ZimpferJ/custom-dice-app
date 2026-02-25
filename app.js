@@ -1,6 +1,15 @@
+ document.addEventListener("DOMContentLoaded", () => {
+
                 let sides = [];
                 let editingIndex = null;
                 let diceCollection = JSON.parse(localStorage.getItem("diceCollection")) || [];
+
+                const APP_VERSION = "2.1"; // match this to your service-worker version if you want
+
+                const versionLabel = document.getElementById("version-label");
+                if (versionLabel) {
+                    versionLabel.textContent = "Version " + APP_VERSION;
+                }
 
                 function addSide() {
                     const input = document.getElementById("sideInput");
@@ -166,13 +175,14 @@
                     document.getElementById("main-app").classList.remove("hidden");
                 }
 
-                const APP_VERSION = "2.1"; // match this to your service-worker version if you want
+// =========================
+// EVENT LISTENERS
+// =========================
+document.getElementById("addSideBtn")?.addEventListener("click", addSide);
+document.getElementById("saveDiceBtn")?.addEventListener("click", saveDice);
+document.getElementById("rollDiceBtn")?.addEventListener("click", rollDice);
+document.getElementById("clearSidesBtn")?.addEventListener("click", clearSides);
+document.getElementById("aboutBtn")?.addEventListener("click", showAbout);
+document.getElementById("startAppBtn")?.addEventListener("click", startApp);
 
-                document.addEventListener("DOMContentLoaded", () => {
-                    // Splash/About screen
-                    const versionLabel = document.getElementById("version-label");
-                    if (versionLabel) {
-                        versionLabel.textContent = "Version " + APP_VERSION;
-                    }
-
-                });
+});

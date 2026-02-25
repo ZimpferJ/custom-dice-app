@@ -16,7 +16,7 @@
             Create personalized dice for workouts, meal planning, study sessions, 
             or anything you want to randomize.
         </p>
-        <button onclick="startApp()">Get Started</button>
+        <button id="startAppBtn">Get Started</button>
         <div id="version-label"></div> <!-- Version will appear here -->
     </div>
 
@@ -26,7 +26,7 @@
                 
             <h1>🎲 Custom Dice 🎲</h1>
 
-            <button onclick="showAbout()" style="background:#6c757d;">About</button>
+            <button id="aboutBtn">About</button>
 
             <input type="text" id="diceName" placeholder="Dice name (e.g. Workout Dice)">
             <br>
@@ -34,13 +34,13 @@
             <input type="text" id="sideInput" placeholder="Add a side (e.g. Pushups)">
             <br>
 
-            <button onclick="addSide()">Add Side</button>
+            <button id="addSideBtn">Add Side</button>
 
             <div id="sidesList"></div>
 
-            <button onclick="saveDice()">Save Dice</button>
-            <button onclick="rollDice()">Roll 🎲</button>
-            <button onclick="clearSides()">Clear Current Dice</button>
+            <button id="saveDiceBtn">Save Dice</button>
+            <button id="rollDiceBtn">Roll 🎲</button>
+            <button id="clearSidesBtn">Clear Current Dice</button>
 
             <div id="result"></div>
 
