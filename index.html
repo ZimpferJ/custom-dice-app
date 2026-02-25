@@ -320,6 +320,22 @@
                     document.getElementById("main-app").classList.remove("hidden");
                 }
 
+                document.addEventListener("DOMContentLoaded", () => {
+                    const versionLabel = document.getElementById("version-label");
+
+                    if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
+                        // Send a message to the active service worker
+                        navigator.serviceWorker.controller.postMessage({ type: "GET_VERSION" });
+
+                        // Listen for response
+                        navigator.serviceWorker.addEventListener("message", event => {
+                            if (event.data.type === "VERSION") {
+                                versionLabel.textContent = "Version " + event.data.version;
+                            }
+                        });
+                    }
+                });
+
                 </script>
 
         </div>

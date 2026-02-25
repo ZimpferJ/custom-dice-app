@@ -1,4 +1,5 @@
-const CACHE_NAME = "dice-app-v2";
+const CACHE_NAME = "dice-app-v2.1";
+const APP_VERSION = "v2.1";
 
 self.addEventListener("activate", event => {
     event.waitUntil(
@@ -33,4 +34,10 @@ self.addEventListener('fetch', event => {
             return response || fetch(event.request);
         })
     );
+});
+
+self.addEventListener("message", event => {
+    if (event.data && event.data.type === "GET_VERSION") {
+        event.source.postMessage({ type: "VERSION", version: APP_VERSION });
+    }
 });
