@@ -125,179 +125,191 @@
     <div id="main-app" class="hidden">
 
         <div class="app-container">
+                
+            <h1>🎲 Custom Dice 🎲</h1>
 
-        <h1>🎲 Custom Dice 🎲</h1>
+            <button onclick="showAbout()" style="background:#6c757d;">About</button>
 
-        <input type="text" id="diceName" placeholder="Dice name (e.g. Workout Dice)">
-        <br>
+            <input type="text" id="diceName" placeholder="Dice name (e.g. Workout Dice)">
+            <br>
 
-        <input type="text" id="sideInput" placeholder="Add a side (e.g. Pushups)">
-        <br>
+            <input type="text" id="sideInput" placeholder="Add a side (e.g. Pushups)">
+            <br>
 
-        <button onclick="addSide()">Add Side</button>
+            <button onclick="addSide()">Add Side</button>
 
-        <div id="sidesList"></div>
+            <div id="sidesList"></div>
 
-        <button onclick="saveDice()">Save Dice</button>
-        <button onclick="rollDice()">Roll 🎲</button>
-        <button onclick="clearSides()">Clear Current Dice</button>
+            <button onclick="saveDice()">Save Dice</button>
+            <button onclick="rollDice()">Roll 🎲</button>
+            <button onclick="clearSides()">Clear Current Dice</button>
 
-        <div id="result"></div>
+            <div id="result"></div>
 
-        <hr>
+            <hr>
 
-        <h2>Saved Dice</h2>
-        <div id="savedDice"></div>
+            <h2>Saved Dice</h2>
+            <div id="savedDice"></div>
 
-            <script>
-            let sides = [];
-            let editingIndex = null;
-            let diceCollection = JSON.parse(localStorage.getItem("diceCollection")) || [];
+                <script>
+                let sides = [];
+                let editingIndex = null;
+                let diceCollection = JSON.parse(localStorage.getItem("diceCollection")) || [];
 
-            function addSide() {
-                const input = document.getElementById("sideInput");
-                if (input.value.trim() === "") return;
+                function addSide() {
+                    const input = document.getElementById("sideInput");
+                    if (input.value.trim() === "") return;
 
-                sides.push(input.value);
-                input.value = "";
-                renderSides();
-            }
-
-            function renderSides() {
-                const list = document.getElementById("sidesList");
-                list.innerHTML = "";
-
-                sides.forEach((side, index) => {
-                    const div = document.createElement("div");
-                    div.className = "side-item";
-
-                    const span = document.createElement("span");
-                    span.textContent = side;
-
-                    const editBtn = document.createElement("button");
-                    editBtn.textContent = "Edit";
-                    editBtn.style.marginLeft = "10px";
-                    editBtn.style.background = "#28a745";
-
-                    editBtn.onclick = () => {
-                        editSide(index);
-                    };
-
-                    const deleteBtn = document.createElement("button");
-                    deleteBtn.textContent = "Delete";
-                    deleteBtn.style.marginLeft = "5px";
-                    deleteBtn.style.background = "#dc3545";
-
-                    deleteBtn.onclick = () => {
-                    sides.splice(index, 1);
+                    sides.push(input.value);
+                    input.value = "";
                     renderSides();
-            };
-
-                    div.appendChild(span);
-                    div.appendChild(editBtn);
-                    div.appendChild(deleteBtn);
-                    list.appendChild(div);
-                });
-            }
-
-            function saveDice() {
-                const name = document.getElementById("diceName").value;
-                if (!name || sides.length === 0) {
-                    alert("Please add a name and at least one side.");
-                    return;
                 }
 
-                if (editingIndex !== null) {
-                    // Update existing dice
-                    diceCollection[editingIndex] = { name: name, sides: [...sides] };
-                } else {
-                    // Create new dice
-                    diceCollection.push({ name: name, sides: [...sides] });
-                }
+                function renderSides() {
+                    const list = document.getElementById("sidesList");
+                    list.innerHTML = "";
 
-                localStorage.setItem("diceCollection", JSON.stringify(diceCollection));
+                    sides.forEach((side, index) => {
+                        const div = document.createElement("div");
+                        div.className = "side-item";
 
-                sides = [];
-                editingIndex = null;
-                document.getElementById("diceName").value = "";
-                renderSides();
-                renderSavedDice();
-            }
+                        const span = document.createElement("span");
+                        span.textContent = side;
 
-            function renderSavedDice() {
-                const container = document.getElementById("savedDice");
-                container.innerHTML = "";
+                        const editBtn = document.createElement("button");
+                        editBtn.textContent = "Edit";
+                        editBtn.style.marginLeft = "10px";
+                        editBtn.style.background = "#28a745";
 
-                diceCollection.forEach((dice, index) => {
-                    const btn = document.createElement("button");
-                    btn.textContent = dice.name;
+                        editBtn.onclick = () => {
+                            editSide(index);
+                        };
 
-                    btn.onclick = () => {
-                        sides = [...dice.sides];
-                        document.getElementById("diceName").value = dice.name;
-                        editingIndex = index;
+                        const deleteBtn = document.createElement("button");
+                        deleteBtn.textContent = "Delete";
+                        deleteBtn.style.marginLeft = "5px";
+                        deleteBtn.style.background = "#dc3545";
+
+                        deleteBtn.onclick = () => {
+                        sides.splice(index, 1);
                         renderSides();
-                    };
+                };
 
-                    container.appendChild(btn);
-                });
-            }
-
-            function rollDice() {
-                if (sides.length === 0) {
-                    alert("No sides to roll!");
-                    return;
+                        div.appendChild(span);
+                        div.appendChild(editBtn);
+                        div.appendChild(deleteBtn);
+                        list.appendChild(div);
+                    });
                 }
 
-                let count = 0;
-                const resultDiv = document.getElementById("result");
-
-                const interval = setInterval(() => {
-                    const randomIndex = Math.floor(Math.random() * sides.length);
-                    resultDiv.textContent = sides[randomIndex];
-                    count++;
-
-                    if (count > 20) {
-                        clearInterval(interval);
+                function saveDice() {
+                    const name = document.getElementById("diceName").value;
+                    if (!name || sides.length === 0) {
+                        alert("Please add a name and at least one side.");
+                        return;
                     }
-                }, 100);
-            }
 
-            function clearSides() {
-                sides = [];
-                renderSides();
-                document.getElementById("result").textContent = "";
-            }
+                    if (editingIndex !== null) {
+                        // Update existing dice
+                        diceCollection[editingIndex] = { name: name, sides: [...sides] };
+                    } else {
+                        // Create new dice
+                        diceCollection.push({ name: name, sides: [...sides] });
+                    }
 
-            function editSide(index) {
-                const newValue = prompt("Edit this side:", sides[index]);
+                    localStorage.setItem("diceCollection", JSON.stringify(diceCollection));
 
-                if (newValue !== null && newValue.trim() !== "") {
-                    sides[index] = newValue;
+                    sides = [];
+                    editingIndex = null;
+                    document.getElementById("diceName").value = "";
                     renderSides();
+                    renderSavedDice();
                 }
-            }
 
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/service-worker.js');
-            }
+                function renderSavedDice() {
+                    const container = document.getElementById("savedDice");
+                    container.innerHTML = "";
 
-            function startApp() {
-                document.getElementById("splash-screen").classList.add("hidden");
-                document.getElementById("main-app").classList.remove("hidden");
-                localStorage.setItem("hasOpenedApp", "true");
-            }
+                    diceCollection.forEach((dice, index) => {
+                        const btn = document.createElement("button");
+                        btn.textContent = dice.name;
 
-            window.addEventListener("load", () => {
-                const hasOpened = localStorage.getItem("hasOpenedApp");
+                        btn.onclick = () => {
+                            sides = [...dice.sides];
+                            document.getElementById("diceName").value = dice.name;
+                            editingIndex = index;
+                            renderSides();
+                        };
 
-                if (hasOpened) {
+                        container.appendChild(btn);
+                    });
+                }
+
+                function rollDice() {
+                    if (sides.length === 0) {
+                        alert("No sides to roll!");
+                        return;
+                    }
+
+                    let count = 0;
+                    const resultDiv = document.getElementById("result");
+
+                    const interval = setInterval(() => {
+                        const randomIndex = Math.floor(Math.random() * sides.length);
+                        resultDiv.textContent = sides[randomIndex];
+                        count++;
+
+                        if (count > 20) {
+                            clearInterval(interval);
+                        }
+                    }, 100);
+                }
+
+                function clearSides() {
+                    sides = [];
+                    renderSides();
+                    document.getElementById("result").textContent = "";
+                }
+
+                function editSide(index) {
+                    const newValue = prompt("Edit this side:", sides[index]);
+
+                    if (newValue !== null && newValue.trim() !== "") {
+                        sides[index] = newValue;
+                        renderSides();
+                    }
+                }
+
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.register('/service-worker.js');
+                }
+
+                function startApp() {
+                    document.getElementById("splash-screen").classList.add("hidden");
+                    document.getElementById("main-app").classList.remove("hidden");
+                    localStorage.setItem("hasOpenedApp", "true");
+                }
+
+                window.addEventListener("load", () => {
+                    const hasOpened = localStorage.getItem("hasOpenedApp");
+
+                    if (hasOpened) {
+                        document.getElementById("splash-screen").classList.add("hidden");
+                        document.getElementById("main-app").classList.remove("hidden");
+                    }
+                });
+
+                function showAbout() {
+                    document.getElementById("splash-screen").classList.remove("hidden");
+                    document.getElementById("main-app").classList.add("hidden");
+                }
+
+                function closeAbout() {
                     document.getElementById("splash-screen").classList.add("hidden");
                     document.getElementById("main-app").classList.remove("hidden");
                 }
-            });
 
-            </script>
+                </script>
 
         </div>
 
