@@ -1,5 +1,5 @@
 const CACHE_NAME = "dice-app-v2.1";
-const APP_VERSION = "v2.1";
+const APP_VERSION = "v2.2";
 
 self.addEventListener("activate", event => {
     event.waitUntil(

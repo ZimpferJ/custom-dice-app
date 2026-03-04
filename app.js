@@ -4,7 +4,7 @@
                 let editingIndex = null;
                 let diceCollection = JSON.parse(localStorage.getItem("diceCollection")) || [];
 
-                const APP_VERSION = "2.1"; // match this to your service-worker version if you want
+                const APP_VERSION = "2.2"; // match this to your service-worker version if you want
 
                 const versionLabel = document.getElementById("version-label");
                 if (versionLabel) {
@@ -86,18 +86,56 @@
                     container.innerHTML = "";
 
                     diceCollection.forEach((dice, index) => {
-                        const btn = document.createElement("button");
-                        btn.textContent = dice.name;
 
-                        btn.onclick = () => {
+                        const wrapper = document.createElement("div");
+                        wrapper.className = "saved-dice-item";
+
+                        const loadBtn = document.createElement("button");
+                        loadBtn.textContent = dice.name;
+
+                        loadBtn.addEventListener("click", () => {
                             sides = [...dice.sides];
                             document.getElementById("diceName").value = dice.name;
                             editingIndex = index;
                             renderSides();
-                        };
+                        });
 
-                        container.appendChild(btn);
+                        const deleteBtn = document.createElement("button");
+                        deleteBtn.textContent = "Delete";
+                        deleteBtn.className = "delete-btn";
+
+                        deleteBtn.addEventListener("click", () => {
+                            deleteSavedDice(index);
+                        });
+
+                        wrapper.appendChild(loadBtn);
+                        wrapper.appendChild(deleteBtn);
+                        container.appendChild(wrapper);
                     });
+                }
+
+                function deleteSavedDice(index) {
+
+                    // Remove from array
+                    diceCollection.splice(index, 1);
+
+                    // Update localStorage
+                    localStorage.setItem("diceCollection", JSON.stringify(diceCollection));
+
+                    // If we were editing this dice, reset editor
+                    if (editingIndex === index) {
+                        sides = [];
+                        editingIndex = null;
+                        document.getElementById("diceName").value = "";
+                        renderSides();
+                    }
+
+                    // If deleting an earlier item, adjust editingIndex
+                    if (editingIndex !== null && editingIndex > index) {
+                        editingIndex--;
+                    }
+
+                    renderSavedDice();
                 }
 
                 function rollDice() {
@@ -151,28 +189,29 @@
                         });
                     }
 
+                window.addEventListener("load", () => {
+                    const hasOpened = localStorage.getItem("hasOpenedApp");
+
+                    if (hasOpened) {
+                        document.getElementById("splash-screen").classList.add("visible");
+                    } else {
+                        document.getElementById("splash-screen").classList.remove("visible");
+                    }
+                });
+
                 function startApp() {
                     localStorage.setItem("hasOpenedApp", "true");
                     closeAbout();
                 }
 
-                window.addEventListener("load", () => {
-                    const hasOpened = localStorage.getItem("hasOpenedApp");
-
-                    if (hasOpened) {
-                        document.getElementById("splash-screen").classList.add("hidden");
-                        document.getElementById("main-app").classList.remove("hidden");
-                    }
-                });
-
                 function showAbout() {
-                    document.getElementById("splash-screen").classList.remove("hidden");
-                    document.getElementById("main-app").classList.add("hidden");
+                    document.getElementById("splash-screen")
+                        .classList.add("visible");
                 }
 
                 function closeAbout() {
-                    document.getElementById("splash-screen").classList.add("hidden");
-                    document.getElementById("main-app").classList.remove("hidden");
+                    document.getElementById("splash-screen")
+                        .classList.remove("visible");
                 }
 
 // =========================

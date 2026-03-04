@@ -14,7 +14,7 @@
         <h1>🎲 Welcome to Custom Dice 🎲</h1>
         <p>
             Create personalized dice for workouts, meal planning, study sessions, 
-            or anything you want to randomize.
+            or anything you want to randomize!
         </p>
         <button id="startAppBtn">Get Started</button>
         <div id="version-label"></div> <!-- Version will appear here -->
@@ -22,32 +22,36 @@
 
     <div id="main-app" class="hidden">
 
+        <div class="content-area">
+        
         <div class="app-container">
-                
-            <h1>🎲 Custom Dice 🎲</h1>
+                    
+                <h1>🎲 Custom Dice 🎲</h1>
 
-            <button id="aboutBtn">About</button>
+                <button id="aboutBtn" class="about-icon">ℹ</button>
 
-            <input type="text" id="diceName" placeholder="Dice name (e.g. Workout Dice)">
-            <br>
+                <input type="text" id="diceName" placeholder="Dice name (e.g. Workout Dice)">
+                <br>
 
-            <input type="text" id="sideInput" placeholder="Add a side (e.g. Pushups)">
-            <br>
+                <input type="text" id="sideInput" placeholder="Add a side (e.g. Pushups)">
+                <br>
 
-            <button id="addSideBtn">Add Side</button>
+                <button id="addSideBtn">Add Side</button>
 
-            <div id="sidesList"></div>
+                <div id="sidesList"></div>
 
-            <button id="saveDiceBtn">Save Dice</button>
-            <button id="rollDiceBtn">Roll 🎲</button>
-            <button id="clearSidesBtn">Clear Current Dice</button>
+                <button id="saveDiceBtn">Save Dice</button>
+                <button id="rollDiceBtn">Roll 🎲</button>
+                <button id="clearSidesBtn">Clear Current Dice</button>
 
-            <div id="result"></div>
+                <div id="result"></div>
 
-            <hr>
+                <hr>
 
-            <h2>Saved Dice</h2>
-            <div id="savedDice"></div>
+                <h2>Saved Dice</h2>
+                <div id="savedDice"></div>
+
+            </div>
 
         </div>
 
