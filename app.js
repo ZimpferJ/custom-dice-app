@@ -3,6 +3,7 @@
                 let sides = [];
                 let editingIndex = null;
                 let diceCollection = JSON.parse(localStorage.getItem("diceCollection")) || [];
+                renderSavedDice();
 
                 const APP_VERSION = "2.2"; // match this to your service-worker version if you want
 
