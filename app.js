@@ -34,7 +34,7 @@
 
                         const editBtn = document.createElement("button");
                         editBtn.textContent = "Edit";
-                        editBtn.style.marginLeft = "10px";
+                        editBtn.style.marginLeft = "100px";
                         editBtn.style.background = "#28a745";
 
                         editBtn.onclick = () => {
@@ -43,7 +43,7 @@
 
                         const deleteBtn = document.createElement("button");
                         deleteBtn.textContent = "Delete";
-                        deleteBtn.style.marginLeft = "5px";
+                        deleteBtn.style.marginLeft = "20px";
                         deleteBtn.style.background = "#dc3545";
 
                         deleteBtn.onclick = () => {
@@ -104,6 +104,8 @@
                         const deleteBtn = document.createElement("button");
                         deleteBtn.textContent = "Delete";
                         deleteBtn.className = "delete-btn";
+                        deleteBtn.style.marginLeft = "20px";
+                        deleteBtn.style.background = "#dc3545";
 
                         deleteBtn.addEventListener("click", () => {
                             deleteSavedDice(index);
